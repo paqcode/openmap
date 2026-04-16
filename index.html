@@ -1,49 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mapa</title>
+    <title>Mapa de Distancias</title>
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
       crossorigin=""
     />
-    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
+    <!-- Toast de notificaciones -->
+    <div id="toast" class="toast" aria-live="polite"></div>
+
     <div class="container">
+      <h1 class="app-title">📍 Mapa de Distancias</h1>
+
       <form id="addressForm" class="form">
         <div class="input-container">
           <input
             type="text"
             id="address"
             name="address"
-            placeholder="Dirección"
+            placeholder="Buscá una dirección..."
+            autocomplete="off"
           />
-          <button type="submit" class="btnForm">Buscar</button>
-          <button class="ubicate">
-            <img src="assets/ubication.png" alt="ubicate" />
+          <button type="submit" class="btnForm">
+            <span class="btn-text">Buscar</span>
+            <span class="btn-spinner hidden">⏳</span>
+          </button>
+          <button type="button" class="ubicate" title="Usar mi ubicación actual">
+            <img src="assets/ubication.png" alt="Usar mi ubicación" />
           </button>
         </div>
       </form>
     </div>
 
     <main class="container">
-      <div id="my_map"></div>
-
-      <div class="distance">
-        <span>Distancia: </span>
-        <span id="distance"></span>
+      <div id="map-wrapper">
+        <div id="my_map"></div>
+        <div id="map-hint" class="map-hint">
+          🖱️ Hacé clic en el mapa para medir la distancia
+        </div>
+        <div id="map-loading" class="map-loading hidden">
+          <div class="spinner"></div>
+          <p>Cargando mapa...</p>
+        </div>
       </div>
 
-      <div class="latlong">
-        <span>Latitud: </span>
-        <span id="latitud"></span>
-        <span>/</span>
-        <span>Longitud: </span>
-        <span id="longitud"> </span>
+      <div class="info-panel">
+        <div class="distance">
+          <span class="info-label">Distancia</span>
+          <span id="distance" class="info-value">--</span>
+        </div>
+
+        <div class="latlong">
+          <div class="coord">
+            <span class="info-label">Latitud</span>
+            <span id="latitud" class="info-value coord-value">--</span>
+          </div>
+          <div class="coord">
+            <span class="info-label">Longitud</span>
+            <span id="longitud" class="info-value coord-value">--</span>
+          </div>
+        </div>
       </div>
     </main>
 
